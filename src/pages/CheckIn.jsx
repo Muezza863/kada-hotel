@@ -1,0 +1,222 @@
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+
+const CheckIn = () => {
+  const { roomId } = useParams();
+  const navigate = useNavigate();
+
+  // ================= STATE =================
+  const [room, setRoom] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const [formData, setFormData] = useState({
+    fullName: '',
+    identityNumber: '',
+    gender: '',
+    estimatedDays: 1,
+    note: ''
+  });
+
+  // ================= FETCH ROOM =================
+  useEffect(() => {
+    const fetchRoom = async () => {
+      try {
+        const res = await fetch(
+          `https://my-json-server.typicode.com/Muezza863/Kada-Hotel-Json/rooms/${roomId}`
+        );
+        const data = await res.json();
+        setRoom(data);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRoom();
+  }, [roomId]);
+
+  // ================= HANDLE FORM =================
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // ================= SUBMIT =================
+  const handleSubmit = () => {
+    if (!formData.fullName || !formData.identityNumber || !formData.gender) {
+      alert("Please fill required fields");
+      return;
+    }
+
+    alert(`
+CHECK IN SUCCESS
+Guest : ${formData.fullName}
+Room : ${room.roomNumber}
+Stay : ${formData.estimatedDays} days
+    `);
+
+    navigate('/rooms');
+  };
+
+  // ================= LOADING =================
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error : {error.message}</div>;
+  if (!room) return <div>Room Not Found</div>;
+
+  // ================= UI =================
+  return (
+    <div style={{ padding: '20px', maxWidth: '900px', margin: '0 auto' }}>
+      
+      <h2>Check-In Process - Room {room.roomNumber}</h2>
+
+      {/* ================= ROOM DETAIL ================= */}
+      <div style={cardStyle}>
+        <h3>Room Detail</h3>
+
+        <p><b>Room Number :</b> {room.roomNumber}</p>
+        <p><b>Category :</b> {room.category}</p>
+        <p><b>Status :</b> {room.status}</p>
+
+        <p><b>Facilities :</b></p>
+        <ul>
+          {room?.specs?.facilities?.map((f, i) => (
+            <li key={i}>{f}</li>
+          ))}
+        </ul>
+      </div>
+
+      {/* ================= GUEST FORM ================= */}
+      <div style={cardStyle}>
+        <h3>Guest Information</h3>
+
+        <div style={formRow}>
+          <label style={labelStyle}>Full Name</label>
+          <input
+            style={inputStyle}
+            name="fullName"
+            value={formData.fullName}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div style={formRow}>
+          <label style={labelStyle}>Identity Number</label>
+          <input
+            style={inputStyle}
+            name="identityNumber"
+            value={formData.identityNumber}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div style={formRow}>
+          <label style={labelStyle}>Gender</label>
+          <select
+            style={inputStyle}
+            name="gender"
+            value={formData.gender}
+            onChange={handleChange}
+          >
+            <option value="">Select</option>
+            <option value="Laki-laki">Laki-laki</option>
+            <option value="Perempuan">Perempuan</option>
+          </select>
+        </div>
+
+        <div style={formRow}>
+          <label style={labelStyle}>Stay (Days)</label>
+          <input
+            type="number"
+            min="1"
+            style={inputStyle}
+            name="estimatedDays"
+            value={formData.estimatedDays}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div style={formRow}>
+          <label style={labelStyle}>Note</label>
+          <textarea
+            style={inputStyle}
+            name="note"
+            value={formData.note}
+            onChange={handleChange}
+          />
+        </div>
+      </div>
+
+      {/* ================= SUMMARY ================= */}
+      <div style={cardStyle}>
+        <h3>Stay Summary</h3>
+
+        <p>
+          Guest will stay for <b>{formData.estimatedDays}</b> days
+        </p>
+      </div>
+
+      {/* ================= BUTTON ================= */}
+      <div style={{ display: 'flex', gap: '10px' }}>
+        <button style={confirmBtn} onClick={handleSubmit}>
+          Confirm Check In
+        </button>
+
+        <button style={cancelBtn} onClick={() => navigate('/rooms')}>
+          Cancel
+        </button>
+      </div>
+
+    </div>
+  );
+};
+
+// ================= STYLE =================
+const cardStyle = {
+  border: '1px solid #ccc',
+  padding: '20px',
+  marginBottom: '20px',
+  borderRadius: '8px',
+  boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+};
+
+const formRow = {
+  display: 'flex',
+  marginBottom: '12px',
+  alignItems: 'center'
+};
+
+const labelStyle = {
+  width: '160px',
+  fontWeight: 'bold'
+};
+
+const inputStyle = {
+  flex: 1,
+  padding: '8px'
+};
+
+const confirmBtn = {
+  padding: '10px 20px',
+  backgroundColor: '#28a745',
+  color: 'white',
+  border: 'none',
+  borderRadius: '5px',
+  cursor: 'pointer'
+};
+
+const cancelBtn = {
+  padding: '10px 20px',
+  backgroundColor: '#6c757d',
+  color: 'white',
+  border: 'none',
+  borderRadius: '5px',
+  cursor: 'pointer'
+};
+
+export default CheckIn;
