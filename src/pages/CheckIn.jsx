@@ -70,7 +70,7 @@ const CheckIn = () => {
 
   } catch (error) {
     console.error("Gagal membuat ID baru:", error);
-    return "BK-ERROR"; // Fallback jika server mati
+    return "ERROR"; // Fallback jika server mati
   }
 };
 

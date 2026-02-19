@@ -1,6 +1,6 @@
 
 .checkout-page {
-  background-color: #f4f6f8;
+  background-color: #FAFAFA;
   min-height: 100vh;
   padding: 40px 20px;
   font-family: sans-serif;
@@ -60,6 +60,7 @@
 .card {
   background-color: #fff;
   border-radius: 12px;
+  /* border: 1px solid red; */
   padding: 24px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
@@ -206,7 +207,7 @@
 .total-amount {
   font-size: 32px;
   font-weight: 700;
-  color: #2563eb;
+  color: #0077C0;
   line-height: 1.1;
 }
 
@@ -226,8 +227,8 @@
 .btn-process {
   width: 100%;
   padding: 14px;
-  background-color: #ef4444;
-  color: white;
+  background-color: #C7EEFF;
+  color: #111827;
   border: none;
   border-radius: 8px;
   font-size: 15px;
@@ -241,7 +242,8 @@
 }
 
 .btn-process:hover {
-  background-color: #dc2626;
+  background-color: #0077C0;
+  color: white;
 }
 
 .btn-cancel {

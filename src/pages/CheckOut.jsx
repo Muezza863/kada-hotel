@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchCheckOutData, processCheckOut, resetCheckOutState } from '../store/slice/checkOutSlice'
 import '../styles/CheckOut.css'
 
 
@@ -7,30 +9,20 @@ import '../styles/CheckOut.css'
 const CheckOut = () => {
     const { bookingId } = useParams() // Fetch booking details using bookingId
     const navigate = useNavigate() // Navigate to other pages
+    const dispatch = useDispatch() // Dispatch actions
 
-    const [booking, setBooking] = useState(null) // Store booking details
-    const [room, setRoom] = useState(null) // Store room details
-    const [equipmentList, setEquipmentList] = useState([]) // Store equipment list
-    const [loading, setLoading] = useState(true) // Loading state
-    const [error, setError] = useState(null) // Error state
-    
-    const [demagedItems, setDemagedItems] = useState([]) // Store demaged items
+    const { bookingData, roomData, equipmentData, isLoading, error, success } = useSelector(state => state.checkOut)
+
+    const [demagedItems, setDemagedItems] = useState([])
 
 
     useEffect(() => {
-        const fetchBookingDetails = async () => {
-            try {
-                const response = await fetch(`https://69953a6ab081bc23e9c25d37.mockapi.io/api/activeBookings/${bookingId}`)
-                const data = await response.json()
-                setBooking(data)
-            } catch (error) {
-                setError(error)
-            } finally {
-                setLoading(false)
-            }
+        dispatch(fetchCheckOutData(bookingId))
+
+        return () => {
+            dispatch(resetCheckOutState())
         }
-        fetchBookingDetails()
-    }, [bookingId]) 
+    }, [dispatch, bookingId]) 
 
    const handleCheckBoxChange = (equipmentId) => {
     setDemagedItems(prevDemagedItems => {
@@ -55,12 +47,12 @@ const CheckOut = () => {
     return diffDays === 0 ? 1 : diffDays;
   };
 
-  const actualDays = booking ? calculateStayDuration(booking.checkInDate) : 0;
+  const actualDays = bookingData ? calculateStayDuration(bookingData.checkInDate) : 0;
 
-   const basePrice = (actualDays || 0) * (room?.pricePerNight || 0)
+   const basePrice = (actualDays || 0) * (roomData?.pricePerNight || 0)
 
    const penaltyFee = demagedItems.reduce((total, equipmentId) => {
-    const equipment = equipmentList.find(item => item.id === equipmentId)
+    const equipment = equipmentData.find(item => item.id === equipmentId)
     return total + (equipment?.penaltyPrice || 0)
    }, 0)
 
@@ -77,7 +69,7 @@ const CheckOut = () => {
             method: 'DELETE',
         });
         // Update room status
-        await fetch(`https://69953a6ab081bc23e9c25d37.mockapi.io/api/rooms/${booking.roomId}`, {
+        await fetch(`https://69953a6ab081bc23e9c25d37.mockapi.io/api/rooms/${bookingData.roomId}`, {
             method: 'PUT',
             headers: {
             'Content-Type': 'application/json',
@@ -99,48 +91,15 @@ const CheckOut = () => {
         }
     };
 
-    useEffect(() => {
-        if (!booking) return
-    const fetchRoomDetails = async () => {
-        try {
-            const response = await fetch(`https://69953a6ab081bc23e9c25d37.mockapi.io/api/rooms/${booking.roomId}`)
-            const data = await response.json()
-            setRoom(data)
-        } catch (error) {
-            setError(error)
-        } finally {
-            setLoading(false)
-        }
-    }
-    fetchRoomDetails()
-   }, [booking?.roomId])
-
-   useEffect(() => {
-    if (!room) return
-    const fetchEquipmentList = async () => {
-        try {
-            const response = await fetch(`https://my-json-server.typicode.com/Muezza863/Kada-Hotel-Json/equipmentList`)
-            const data = await response.json()
-            setEquipmentList(data)
-        } catch (error) {
-            setError(error)
-        } finally {
-            setLoading(false)
-        }
-    }
-    fetchEquipmentList()
-   }, [room?.id])
-
-
    const formatDate = (dateString) => {
     if (!dateString) return '-';
     const date = new Date(dateString);
     return date.toISOString().split('T')[0]; 
   };
 
-   if (loading) return <div>Loading...</div>
+   if (isLoading) return <div>Loading...</div>
    if (error) return <div>Error: {error.message}</div>
-   if (!booking || !room) return <div>Booking not found</div>
+   if (!bookingData || !roomData) return <div>Booking not found</div>
 
 
   return (
@@ -151,7 +110,7 @@ const CheckOut = () => {
                 <button className="back-button" onClick={() => navigate('/rooms')}>
                     <i className=""></i> Back to Room List
                 </button>
-                <h1 className="page-title">Check-Out Process - Room {room.roomNumber}</h1>
+                <h1 className="page-title">Check-Out Process - Room {roomData.roomNumber}</h1>
                 <p className="page-subtitle">Review charges and complete check-out process</p>
             </div>
 
@@ -165,15 +124,15 @@ const CheckOut = () => {
                         <div className="guest-grid">
                             <div>
                                 <label className="guest-label">Guest Name</label>
-                                <p className="guest-value">{booking.customer.fullName}</p>
+                                <p className="guest-value">{bookingData.customer.fullName}</p>
                             </div>
                             <div>
                                 <label className="guest-label">Room Number</label>
-                                <p className="guest-value">{room.roomNumber}</p>
+                                <p className="guest-value">{roomData.roomNumber}</p>
                             </div>
                             <div>
                                 <label className="guest-label">Check-in Date</label>
-                                <p className="guest-value">{formatDate(booking.checkInDate)}</p>
+                                <p className="guest-value">{formatDate(bookingData.checkInDate)}</p>
                             </div>
                             <div>
                                 <label className="guest-label">Stay Duration</label>
@@ -187,7 +146,7 @@ const CheckOut = () => {
                         <h3 className="card-title card-title-red">Additional Charges / Damages</h3>
                         <p className="card-subtitle">Check any items that apply for extra charges</p>
                         <div className="damages-list">
-                            {Array.isArray(equipmentList) && equipmentList.map(equipment => (
+                            {Array.isArray(equipmentData) && equipmentData.map(equipment => (
                                 <label key={equipment.id} className={`damage-item ${demagedItems.includes(equipment.id) ? 'checked' : ''}`}>
                                     <div className="damage-item-left">
                                         <input type="checkbox" className="damage-checkbox" value={equipment.id} checked={demagedItems.includes(equipment.id)} onChange={() => handleCheckBoxChange(equipment.id)} />
