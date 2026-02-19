@@ -1,0 +1,155 @@
+/* Wrapper khusus halaman login */
+.login-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Background pakai color palette gradient */
+  background: linear-gradient(135deg, #1e3c72, #2a5298); /* biru elegan */
+  font-family: "Poppins", sans-serif;
+}
+
+/* Container utama form login */
+.login-container {
+  width: 350px;
+  padding: 30px;
+  border-radius: 16px;
+
+  /* Transparan dengan efek glassmorphism */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Judul */
+.login-container h2 {
+  margin-bottom: 20px;
+  color: #ffffff;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* Input field */
+.login-container input {
+  display: block;
+  width: 93%;
+  margin: 12px 0;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+/* Placeholder warna putih transparan */
+.login-container input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Efek saat fokus di input */
+.login-container input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(1.02);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
+
+/* Tombol login */
+.login-container button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Efek hover tombol */
+.login-container button:hover {
+  background: linear-gradient(135deg, #0099cc, #005fa3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 119, 204, 0.5);
+}
+
+/* Pesan error */
+.login-container .error {
+  color: #ff4d4d;
+  font-size: 0.9em;
+  margin-top: 8px;
+  animation: shake 0.3s ease-in-out;
+}
+
+/* Animasi fadeIn */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animasi shake untuk error */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.login-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* panggil foto lokal */
+  background-image: url("../assets/hotel.jpg");
+  background-size: cover;       /* foto menyesuaikan layar */
+  background-position: center;  /* posisi foto di tengah */
+  background-repeat: no-repeat; /* jangan diulang */
+  font-family: "Poppins", sans-serif;
+  position: relative;
+}
+
+/* Overlay transparan biar teks tetap terbaca */
+.login-page::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* lapisan gelap transparan */
+  z-index: 0;
+}
+
+/* Container form login */
+.login-container {
+  position: relative; /* supaya di atas overlay */
+  z-index: 1;
+  width: 350px;
+  padding: 30px;
+  border-radius: 16px;
+
+  /* efek transparan glassmorphism */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  animation: fadeIn 1s ease-in-out;
+}
