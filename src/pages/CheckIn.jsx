@@ -5,7 +5,6 @@ const CheckIn = () => {
   const { roomId } = useParams();
   const navigate = useNavigate();
 
-  // ================= STATE =================
   const [room, setRoom] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,6 +13,7 @@ const CheckIn = () => {
     fullName: '',
     identityNumber: '',
     gender: '',
+    phoneNumber: '',
     estimatedDays: 1,
     note: ''
   });
@@ -23,7 +23,7 @@ const CheckIn = () => {
     const fetchRoom = async () => {
       try {
         const res = await fetch(
-          `https://my-json-server.typicode.com/Muezza863/Kada-Hotel-Json/rooms/${roomId}`
+          `https://69953a6ab081bc23e9c25d37.mockapi.io/api/rooms/${roomId}`
         );
         const data = await res.json();
         setRoom(data);
@@ -47,73 +47,122 @@ const CheckIn = () => {
     }));
   };
 
+  // ================= GENERATE BOOKING ID =================
+  const generateBookingId = () => {
+    return "BK-" + Date.now();
+  };
+
   // ================= SUBMIT =================
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!formData.fullName || !formData.identityNumber || !formData.gender) {
       alert("Please fill required fields");
       return;
     }
 
-    alert(`
-CHECK IN SUCCESS
-Guest : ${formData.fullName}
-Room : ${room.roomNumber}
-Stay : ${formData.estimatedDays} days
-    `);
+    if (room.status === "occupied") {
+      alert("Room already occupied!");
+      return;
+    }
 
-    navigate('/rooms');
+    const bookingId = generateBookingId();
+
+    const newBooking = {
+      id: bookingId,
+      roomId: room.id,
+      customer: {
+        fullName: formData.fullName,
+        identityNumber: formData.identityNumber,
+        gender: formData.gender,
+        phoneNumber: formData.phoneNumber
+      },
+      estimatedDays: Number(formData.estimatedDays),
+      note: formData.note,
+      checkInDate: new Date().toISOString()
+    };
+
+    try {
+      // 1️⃣ POST Active Booking
+      await fetch(
+        `https://69953a6ab081bc23e9c25d37.mockapi.io/api/activeBookings`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(newBooking)
+        }
+      );
+
+      // 2️⃣ UPDATE ROOM STATUS
+      await fetch(
+        `https://69953a6ab081bc23e9c25d37.mockapi.io/api/rooms/${room.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            ...room,
+            status: "occupied",
+            currentBookingId: bookingId
+          })
+        }
+      );
+
+      alert("Check-in berhasil!");
+      navigate("/rooms");
+
+    } catch (err) {
+      console.error("Check-in gagal:", err);
+      alert("Terjadi kesalahan saat check-in.");
+    }
   };
 
-  // ================= LOADING =================
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error : {error.message}</div>;
+  if (error) return <div>Error: {error.message}</div>;
   if (!room) return <div>Room Not Found</div>;
 
-  // ================= UI =================
   return (
     <div style={{ padding: '20px', maxWidth: '900px', margin: '0 auto' }}>
       
       <h2>Check-In Process - Room {room.roomNumber}</h2>
 
-      {/* ================= ROOM DETAIL ================= */}
+      {/* ROOM DETAIL */}
       <div style={cardStyle}>
         <h3>Room Detail</h3>
+        <p><b>Room Number:</b> {room.roomNumber}</p>
+        <p><b>Category:</b> {room.category}</p>
+        <p><b>Status:</b> {room.status}</p>
+        <p><b>Bed Type:</b> {room.specs?.bedType}</p>
+        <p><b>Size:</b> {room.specs?.size}</p>
 
-        <p><b>Room Number :</b> {room.roomNumber}</p>
-        <p><b>Category :</b> {room.category}</p>
-        <p><b>Status :</b> {room.status}</p>
-
-        <p><b>Facilities :</b></p>
+        <p><b>Facilities:</b></p>
         <ul>
-          {room?.specs?.facilities?.map((f, i) => (
+          {room.specs?.facilities?.map((f, i) => (
             <li key={i}>{f}</li>
           ))}
         </ul>
       </div>
 
-      {/* ================= GUEST FORM ================= */}
+      {/* GUEST FORM */}
       <div style={cardStyle}>
         <h3>Guest Information</h3>
 
-        <div style={formRow}>
-          <label style={labelStyle}>Full Name</label>
-          <input
-            style={inputStyle}
-            name="fullName"
-            value={formData.fullName}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div style={formRow}>
-          <label style={labelStyle}>Identity Number</label>
-          <input
-            style={inputStyle}
-            name="identityNumber"
-            value={formData.identityNumber}
-            onChange={handleChange}
-          />
-        </div>
+        {[
+          { label: "Full Name", name: "fullName" },
+          { label: "Identity Number", name: "identityNumber" },
+          { label: "Phone Number", name: "phoneNumber" }
+        ].map(field => (
+          <div style={formRow} key={field.name}>
+            <label style={labelStyle}>{field.label}</label>
+            <input
+              style={inputStyle}
+              name={field.name}
+              value={formData[field.name]}
+              onChange={handleChange}
+            />
+          </div>
+        ))}
 
         <div style={formRow}>
           <label style={labelStyle}>Gender</label>
@@ -152,16 +201,15 @@ Stay : ${formData.estimatedDays} days
         </div>
       </div>
 
-      {/* ================= SUMMARY ================= */}
+      {/* SUMMARY */}
       <div style={cardStyle}>
         <h3>Stay Summary</h3>
-
         <p>
-          Guest will stay for <b>{formData.estimatedDays}</b> days
+          Guest will stay for <b>{formData.estimatedDays}</b> day(s)
         </p>
       </div>
 
-      {/* ================= BUTTON ================= */}
+      {/* BUTTON */}
       <div style={{ display: 'flex', gap: '10px' }}>
         <button style={confirmBtn} onClick={handleSubmit}>
           Confirm Check In
@@ -176,7 +224,7 @@ Stay : ${formData.estimatedDays} days
   );
 };
 
-// ================= STYLE =================
+// STYLES
 const cardStyle = {
   border: '1px solid #ccc',
   padding: '20px',
