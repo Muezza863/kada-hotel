@@ -1,14 +1,17 @@
 
 .checkout-page {
-  background-color: #FAFAFA;
-  min-height: 100vh;
-  padding: 40px 20px;
-  font-family: sans-serif;
+  font-family: 'Poppins', sans-serif;
+  /* margin: 0;
+  padding: 0; */
+  background: white;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
 .checkout-container {
   max-width: 1000px;
-  margin: 0 auto;
+  margin: 30px auto;
 }
 
 /* Header */
@@ -16,15 +19,20 @@
   margin-bottom: 30px;
 }
 
-.back-button {
-  background: none;
+/* .back-button {
+  background: #0077C0;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px); 
+
+  font-weight: 600;
+  border-radius: 25px;
   border: none;
-  color: #6b7280;
+  color: white;
   cursor: pointer;
   font-size: 14px;
   margin-bottom: 10px;
-  padding: 0;
-}
+  padding: 10px;
+} */
 
 .page-title {
   margin: 0 0 5px 0;
@@ -56,13 +64,72 @@
   flex: 1 1 300px;
 }
 
+@media (max-width: 1024px) {
+  .checkout-container {
+    /* Memberikan jarak di pinggir layar agar tidak menempel */
+    margin: 20px; 
+    max-width: none;
+  }
+}
+
+@media (max-width: 768px) {
+  
+  /* 1. Mengubah Flex-Direction menjadi Column */
+  .layout-grid {
+    flex-direction: column; /* Membuat kolom kanan (total) pindah ke bawah kolom kiri */
+    gap: 16px;
+  }
+
+  /* 2. Memastikan kolom mengambil lebar penuh */
+  .left-column, .right-column {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  /* 3. Menghilangkan efek Sticky di Mobile */
+  .sticky-card {
+    position: static; /* Di HP, ringkasan pembayaran tidak perlu melayang/sticky */
+    margin-top: 10px;
+  }
+
+  /* 4. Penyesuaian Grid Detail Tamu */
+  .guest-grid {
+    grid-template-columns: 1fr; /* Mengubah dari 2 kolom menjadi 1 kolom saja agar tidak sempit */
+    gap: 12px;
+  }
+
+  /* 5. Mengatur ukuran Font dan Padding agar lebih proporsional di layar kecil */
+  .page-title {
+    font-size: 22px;
+  }
+
+  .card {
+    padding: 16px; /* Mengurangi padding dalam card agar lebih hemat ruang */
+  }
+
+  .total-amount {
+    font-size: 26px; /* Mengecilkan teks harga total */
+  }
+
+  /* 6. Mempermudah klik pada checkbox di HP */
+  .damage-item {
+    padding: 12px;
+  }
+}
+
 /* Cards */
 .card {
-  background-color: #fff;
+  /* background: rgba(255, 255, 255, 0.15);*/
+  /* backdrop-filter: blur(12px);
+
+  -webkit-backdrop-filter: blur(12px);  */
+  background: #FAFAFA;
+
+  color: white;
   border-radius: 12px;
-  /* border: 1px solid red; */
+  border: 2px solid #0077C0;
   padding: 24px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 15px rgba(0,0,0,0.1);
 }
 
 .sticky-card {
@@ -75,7 +142,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #111827;
+  color: #1D242B;
   font-size: 18px;
 }
 
@@ -87,7 +154,7 @@
 .card-subtitle {
   margin: 0 0 20px 0;
   font-size: 14px;
-  color: #6b7280;
+  color: #1D242B;
 }
 
 /* Guest Details */
@@ -106,7 +173,7 @@
 .guest-value {
   margin: 0;
   font-weight: 600;
-  color: #111827;
+  color: #1D242B;
 }
 
 /* Damages Checklist */
@@ -121,7 +188,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 14px 16px;
-  border: 1px solid #e5e7eb;
+  border: 2px solid #0077C0;
   border-radius: 8px;
   cursor: pointer;
   background-color: #fff;
@@ -147,12 +214,12 @@
 }
 
 .damage-name {
-  color: #374151;
+  color: #1D242B;
   font-weight: 500;
 }
 
 .damage-price {
-  color: #111827;
+  color: #1D242B;
   font-weight: 500;
 }
 
@@ -167,13 +234,13 @@
 .payment-row {
   display: flex;
   justify-content: space-between;
-  color: #4b5563;
+  color: #1D242B;
   font-size: 15px;
 }
 
 .payment-row-value {
   font-weight: 500;
-  color: #111827;
+  color: #1D242B;
 }
 
 .payment-row.red {
@@ -196,7 +263,7 @@
 .total-label {
   font-size: 16px;
   font-weight: 600;
-  color: #111827;
+  color: #0077C0;
   margin-top: 6px;
 }
 
@@ -238,7 +305,7 @@
   justify-content: center;
   align-items: center;
   gap: 8px;
-  box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.3);
+  box-shadow: 0 4px 6px -1px #C7EEFF;
 }
 
 .btn-process:hover {

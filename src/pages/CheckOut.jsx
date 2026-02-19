@@ -107,9 +107,9 @@ const CheckOut = () => {
         <div className="checkout-container">
             {/* Header */}
             <div className="header-section">
-                <button className="back-button" onClick={() => navigate('/rooms')}>
+                {/* <button className="back-button" onClick={() => navigate('/rooms')}>
                     <i className=""></i> Back to Room List
-                </button>
+                </button> */}
                 <h1 className="page-title">Check-Out Process - Room {roomData.roomNumber}</h1>
                 <p className="page-subtitle">Review charges and complete check-out process</p>
             </div>

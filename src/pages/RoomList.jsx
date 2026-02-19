@@ -43,7 +43,7 @@ const RoomList = () => {
 
       <div className="roomlist-header">
         <h1>
-          🏨 Kada Hotel
+          Kada Hotel
           <span>Luxury Stay</span>
         </h1>
         <div className="hotel-info">⭐ 4.8 • 1,234 reviews</div>
@@ -111,14 +111,14 @@ const RoomList = () => {
                         onClick={() => navigate(`/checkout/${room.currentBookingId}`)}
                         className="action-button checkout-button"
                       >
-                        ✅ Check-out
+                        Check-out
                       </button>
                     ) : (
                       <button
                         onClick={() => navigate(`/checkin/${room.id}`)}
                         className="action-button checkin-button"
                       >
-                        🏷️ Check-in
+                        Check-in
                       </button>
                     )}
                   </div>
