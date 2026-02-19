@@ -1,122 +1,186 @@
-.create-booking-page {
+/* CheckIn.css - Menggunakan tema warna: FAFAFA, C7EEFF, 0077C0, 1D242B */
+
+.checkin-page {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 40px 20px;
+  background-color: #FAFAFA;
 }
 
-.create-booking-container {
-  max-width: 800px;
+.checkin-container {
+  max-width: 1000px;
   margin: 0 auto;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
+  padding: 30px 20px;
 }
 
-.header-section {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 30px;
-  color: white;
-  position: relative;
+/* Header Section */
+.checkin-header {
+  margin-bottom: 30px;
 }
 
-.back-button {
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 20px;
+.checkin-title {
+  margin: 0 0 5px 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1D242B;
+}
+
+.checkin-subtitle {
+  margin: 0;
+  font-size: 15px;
+  color: #6b7280;
+}
+
+/* Layout Grid */
+.checkin-grid {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.checkin-left {
+  flex: 2;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.checkin-right {
+  flex: 1;
+  min-width: 280px;
+}
+
+/* Cards */
+.checkin-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 
-.back-button:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: translateX(-5px);
+.checkin-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 119, 192, 0.1);
 }
 
-.page-title {
-  font-size: 32px;
-  font-weight: 700;
-  margin: 0 0 10px 0;
-}
-
-.page-subtitle {
-  font-size: 16px;
-  opacity: 0.9;
-  margin: 0;
-}
-
-.booking-form {
-  padding: 30px;
-}
-
-.form-section {
-  margin-bottom: 30px;
-  padding-bottom: 30px;
-  border-bottom: 1px solid #eef2f6;
-}
-
-.form-section:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.section-title {
-  font-size: 20px;
+.checkin-card-title {
+  margin: 0 0 20px 0;
+  font-size: 18px;
   font-weight: 600;
-  color: #333;
-  margin-bottom: 20px;
+  color: #1D242B;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.form-grid {
+.checkin-card-title::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 18px;
+  background-color: #0077C0;
+  border-radius: 2px;
+}
+
+/* Room Details Grid */
+.room-details-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.room-detail-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.room-detail-label {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.room-detail-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1D242B;
+}
+
+/* Facilities List */
+.facilities-list {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.facilities-list li {
+  background-color: #C7EEFF;
+  color: #1D242B;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Form Styles */
+.checkin-form {
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-}
-
-.form-group.full-width {
-  grid-column: span 2;
+  gap: 6px;
 }
 
 .form-group label {
   font-size: 14px;
   font-weight: 500;
-  color: #555;
-  margin-bottom: 8px;
+  color: #1D242B;
+}
+
+.form-group label.required::after {
+  content: '*';
+  color: #dc2626;
+  margin-left: 4px;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
-  padding: 12px;
-  border: 2px solid #eef2f6;
-  border-radius: 10px;
+  padding: 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
   font-size: 14px;
-  transition: all 0.3s ease;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  background-color: #FFFFFF;
+}
+
+.form-group input:hover,
+.form-group select:hover,
+.form-group textarea:hover {
+  border-color: #C7EEFF;
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #0077C0;
+  box-shadow: 0 0 0 4px rgba(0, 119, 192, 0.1);
 }
 
-.form-group input:hover,
-.form-group select:hover,
-.form-group textarea:hover {
-  border-color: #764ba2;
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #9ca3af;
 }
 
 .form-group textarea {
@@ -124,91 +188,202 @@
   min-height: 80px;
 }
 
-.form-actions {
-  display: flex;
-  gap: 15px;
-  margin-top: 30px;
+/* Two column layout for form */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
 }
 
-.btn-submit,
+@media (max-width: 640px) {
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+/* Summary Card */
+.summary-card {
+  background: linear-gradient(135deg, #C7EEFF 0%, #e6f6ff 100%);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.summary-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1D242B;
+  margin: 0 0 12px 0;
+}
+
+.summary-content {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0077C0;
+  margin: 0;
+}
+
+.summary-note {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 8px;
+}
+
+/* Sticky Card for Right Column */
+.checkin-sticky {
+  position: sticky;
+  top: 24px;
+}
+
+/* Buttons */
+.checkin-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.btn-confirm {
+  flex: 2;
+  padding: 16px 24px;
+  background-color: #0077C0;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 119, 192, 0.3);
+}
+
+.btn-confirm:hover {
+  background-color: #005c94;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 119, 192, 0.4);
+}
+
+.btn-confirm:active {
+  transform: translateY(0);
+}
+
 .btn-cancel {
   flex: 1;
-  padding: 15px;
-  border: none;
-  border-radius: 10px;
+  padding: 16px 24px;
+  background-color: #FAFAFA;
+  color: #1D242B;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.btn-submit {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-}
-
-.btn-submit:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-}
-
-.btn-submit:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.btn-cancel {
-  background: #f8f9fa;
-  color: #666;
-  border: 2px solid #eef2f6;
-}
-
 .btn-cancel:hover {
-  background: #eef2f6;
-  border-color: #ddd;
+  background-color: #f0f0f0;
+  border-color: #d1d5db;
 }
 
-.loading {
-  text-align: center;
-  padding: 50px;
-  font-size: 18px;
-  color: #666;
+/* Loading State */
+.checkin-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  font-size: 16px;
+  color: #6b7280;
 }
 
-.error {
+.checkin-loading::after {
+  content: '';
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  border: 2px solid #C7EEFF;
+  border-top-color: #0077C0;
+  border-radius: 50%;
+  animation: spinner 0.8s linear infinite;
+}
+
+@keyframes spinner {
+  to { transform: rotate(360deg); }
+}
+
+/* Error State */
+.checkin-error {
   text-align: center;
   padding: 50px;
-  color: #e74c3c;
-  font-size: 18px;
+  color: #dc2626;
+  font-size: 16px;
+  background-color: #fee2e2;
+  border-radius: 12px;
+  margin: 20px;
+}
+
+/* Room Not Found */
+.room-not-found {
+  text-align: center;
+  padding: 50px;
+  color: #6b7280;
+  font-size: 16px;
+  background-color: #FAFAFA;
+  border-radius: 12px;
+  border: 2px dashed #e5e7eb;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .create-booking-container {
-    margin: 0 10px;
+  .checkin-container {
+    padding: 20px 16px;
   }
 
-  .header-section {
-    padding: 20px;
+  .checkin-grid {
+    flex-direction: column;
+    gap: 16px;
   }
 
-  .page-title {
+  .checkin-left,
+  .checkin-right {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+
+  .checkin-sticky {
+    position: static;
+  }
+
+  .checkin-title {
     font-size: 24px;
   }
 
-  .booking-form {
+  .checkin-card {
     padding: 20px;
   }
 
-  .form-grid {
+  .room-details-grid {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
 
-  .form-group.full-width {
-    grid-column: span 1;
-  }
-
-  .form-actions {
+  .checkin-actions {
     flex-direction: column;
+  }
+
+  .btn-confirm,
+  .btn-cancel {
+    width: 100%;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .checkin-page {
+    background: white;
+  }
+
+  .btn-confirm,
+  .btn-cancel {
+    display: none;
   }
 }
