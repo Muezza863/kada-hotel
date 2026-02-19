@@ -1,5 +1,6 @@
 // import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../styles/Login.css'
 
 // const Login = () => {
 //   const navigate = useNavigate();
@@ -55,10 +56,19 @@ function LoginPage() {
     }
   };
 
+<div className="login-page">
+  <div className="login-container">
+    <h2>Registrasi Kamar KADA Hotel</h2>
+    {/* form login */}
+  </div>
+</div>
+
+
   return (
-    <div className="login-container">
-      <h2>Hotel Check-in/Check-out</h2>
-      {/* Form login */}
+<div className="login-page">
+  <div className="login-container">
+    <h2>Registrasi Kamar KADA Hotel</h2>
+    {/* form login */}
       <form onSubmit={handleLogin}>
         {/* Input username */}
         <input
@@ -83,6 +93,8 @@ function LoginPage() {
         <button type="submit">Login</button>
       </form>
     </div>
+  </div>
+
   );
 }
 
