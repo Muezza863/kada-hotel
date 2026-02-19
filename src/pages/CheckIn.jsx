@@ -48,9 +48,31 @@ const CheckIn = () => {
   };
 
   // ================= GENERATE BOOKING ID =================
-  const generateBookingId = () => {
-    return "BK-" + Date.now();
-  };
+  const generateBookingId = async () => {
+  try {
+    // 1. AMBIL DATA DARI SERVER (Ganti URL sesuai API Anda)
+    const response = await fetch('https://69953a6ab081bc23e9c25d37.mockapi.io/api/activeBookings');
+    const data = await response.json();
+
+    // 2. LOGIKA JIKA DATA MASIH KOSONG
+    if (!data || data.length === 0) {
+      return "1";
+    }
+
+    // 3. AMBIL DATA TERAKHIR
+    // Mengambil elemen paling belakang dari array
+    const lastBooking = data[data.length - 1];
+
+    // 5. TAMBAHKAN 1
+    const nextNumber = parseInt(lastBooking.id) + 1;         // Hasil: 16
+
+    return nextNumber;
+
+  } catch (error) {
+    console.error("Gagal membuat ID baru:", error);
+    return "BK-ERROR"; // Fallback jika server mati
+  }
+};
 
   // ================= SUBMIT =================
   const handleSubmit = async () => {
@@ -64,10 +86,9 @@ const CheckIn = () => {
       return;
     }
 
-    const bookingId = generateBookingId();
+    const bookingId = await generateBookingId();
 
     const newBooking = {
-      id: bookingId,
       roomId: room.id,
       customer: {
         fullName: formData.fullName,
