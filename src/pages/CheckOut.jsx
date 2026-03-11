@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchCheckOutData, processCheckOut, resetCheckOutState } from '../store/slice/checkOutSlice'
 import '../styles/CheckOut.css'
 
-
+// KOMENTARRR TEST NGROK DAN CICD
 
 const CheckOut = () => {
     const { bookingId } = useParams() // Fetch booking details using bookingId
